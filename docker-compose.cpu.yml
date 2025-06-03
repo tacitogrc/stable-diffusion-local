@@ -1,0 +1,20 @@
+name: stable-diffusion
+services:
+  stable-diffusion-webui:
+    build: .
+    dockerfile: Dockerfile.cpu
+    container_name: stable-diffusion
+    ports:
+      - "7860:7860"
+    volumes:
+      - ./models:/app/models
+      - ./outputs:/app/outputs
+      - ./config:/app/config
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: [gpu]
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+    runtime: nvidia
